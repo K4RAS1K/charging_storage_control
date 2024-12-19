@@ -1,3 +1,0 @@
-charging_storage_control
-chip: stm32h503cbt6
-adc: AD7683BRMZRL7

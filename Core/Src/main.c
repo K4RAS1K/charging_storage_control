@@ -56,6 +56,7 @@ static void MX_GPIO_Init(void);
 static void MX_ADC1_Init(void);
 static void MX_DAC1_Init(void);
 static void MX_SPI1_Init(void);
+static void MX_ICACHE_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -65,14 +66,23 @@ static void MX_SPI1_Init(void);
 uint16_t AD7683_Read(void) {
     uint16_t data = 0;
 
+    // Читаем данные из АЦП
     if (HAL_SPI_Receive(&hspi1, (uint8_t*)&data, 1, HAL_MAX_DELAY) != HAL_OK) {
+        // Ошибка при приеме данных
         Error_Handler();
     }
 
     return data;
 }
 
-
+void test_output(void) {
+	  AD7683_Read();
+	  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
+	  HAL_Delay(1000);
+	  AD7683_Read();
+	  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
+	  HAL_Delay(1000);
+}
 /* USER CODE END 0 */
 
 /**
@@ -107,6 +117,7 @@ int main(void)
   MX_ADC1_Init();
   MX_DAC1_Init();
   MX_SPI1_Init();
+  MX_ICACHE_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -279,6 +290,34 @@ static void MX_DAC1_Init(void)
   /* USER CODE BEGIN DAC1_Init 2 */
 
   /* USER CODE END DAC1_Init 2 */
+
+}
+
+/**
+  * @brief ICACHE Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_ICACHE_Init(void)
+{
+
+  /* USER CODE BEGIN ICACHE_Init 0 */
+
+  /* USER CODE END ICACHE_Init 0 */
+
+  /* USER CODE BEGIN ICACHE_Init 1 */
+
+  /* USER CODE END ICACHE_Init 1 */
+
+  /** Enable instruction cache (default 2-ways set associative cache)
+  */
+  if (HAL_ICACHE_Enable() != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN ICACHE_Init 2 */
+
+  /* USER CODE END ICACHE_Init 2 */
 
 }
 

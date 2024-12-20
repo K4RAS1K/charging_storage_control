@@ -160,6 +160,7 @@ int main(void)
   float measurement = 0;
   float v_out = 0;
 
+  static GPIO_PinState previousState = GPIO_PIN_SET;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -169,7 +170,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-      if(HAL_GPIO_ReadPin (GPIOB, GPIO_PIN_10))
+      if((previousState == GPIO_PIN_SET) && (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_10) == GPIO_PIN_RESET))//переписать что бы реагировало только по спаду
       {
     	  setpoint = ADC_Read();
     	  measurement = AD7683_Read();
@@ -179,6 +180,10 @@ int main(void)
     		  v_out = 0.4;
     	  }
     	  DAC_Write(v_out);
+    	  previousState = GPIO_PIN_RESET;
+      }
+      if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_10) == GPIO_PIN_SET) {
+    	  previousState = GPIO_PIN_SET;
       }
   }
   /* USER CODE END 3 */

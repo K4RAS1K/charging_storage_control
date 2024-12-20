@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "../pid_lib/PID.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -31,7 +32,23 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+/* Controller parameters */
+#define PID_KP  2.0f
+#define PID_KI  0.5f
+#define PID_KD  0.25f
 
+#define PID_TAU 0.02f
+
+#define PID_LIM_MIN -10.0f
+#define PID_LIM_MAX  10.0f
+
+#define PID_LIM_MIN_INT -5.0f
+#define PID_LIM_MAX_INT  5.0f
+
+#define SAMPLE_TIME_S 0.01f
+
+/* Maximum run-time of simulation */
+#define SIMULATION_TIME_MAX 4.0f
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -63,26 +80,39 @@ static void MX_ICACHE_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-uint16_t AD7683_Read(void) {
+float AD7683_Read(void) {
     uint16_t data = 0;
+    float out_data = 0;
 
-    // Читаем данные из АЦП
     if (HAL_SPI_Receive(&hspi1, (uint8_t*)&data, 1, HAL_MAX_DELAY) != HAL_OK) {
-        // Ошибка при приеме данных
         Error_Handler();
     }
 
-    return data;
+    out_data = data / 65,535 * 5;
+    return out_data;
 }
 
-void test_output(void) {
-	  AD7683_Read();
-	  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
-	  HAL_Delay(1000);
-	  AD7683_Read();
-	  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
-	  HAL_Delay(1000);
+uint16_t ADC_Read(void) {
+    uint16_t data = 0;
+    float out_data = 0;
+
+    HAL_ADC_Start(&hadc1);
+    HAL_ADC_PollForConversion(&hadc1, 100);
+    data = HAL_ADC_GetValue(&hadc1);
+    HAL_ADC_Stop(&hadc1);
+    out_data = data / 4095 * 3.3;
+    return out_data;
 }
+
+void DAC_Write(float data) {
+
+	uint16_t data_to_DAC = data * 4095 / 3.3;
+
+    HAL_DAC_Start(&hdac1, DAC_CHANNEL_1);
+    HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, data_to_DAC);
+}
+
+
 /* USER CODE END 0 */
 
 /**
@@ -93,7 +123,14 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
+    /* Initialise PID controller */
+    PIDController pid = { PID_KP, PID_KI, PID_KD,
+                          PID_TAU,
+                          PID_LIM_MIN, PID_LIM_MAX,
+			  PID_LIM_MIN_INT, PID_LIM_MAX_INT,
+                          SAMPLE_TIME_S };
 
+    PIDController_Init(&pid);
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -119,6 +156,9 @@ int main(void)
   MX_SPI1_Init();
   MX_ICACHE_Init();
   /* USER CODE BEGIN 2 */
+  float setpoint = 0;
+  float measurement = 0;
+  float v_out = 0;
 
   /* USER CODE END 2 */
 
@@ -129,7 +169,17 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-
+      if(HAL_GPIO_ReadPin (GPIOB, GPIO_PIN_10))
+      {
+    	  setpoint = ADC_Read();
+    	  measurement = AD7683_Read();
+    	  PIDController_Update(&pid, setpoint, measurement);
+    	  v_out = pid.out;
+    	  if(v_out > 0.4) {
+    		  v_out = 0.4;
+    	  }
+    	  DAC_Write(v_out);
+      }
   }
   /* USER CODE END 3 */
 }

@@ -24,5 +24,6 @@ C_DEPS :=
 SUBDIRS := \
 Core/Src \
 Core/Startup \
+Core/pid_lib \
 Drivers/STM32H5xx_HAL_Driver/Src \
 

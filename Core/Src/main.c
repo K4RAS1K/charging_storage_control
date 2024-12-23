@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "../pid_lib/PID.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -87,7 +88,7 @@ float AD7683_Read(void) {
         Error_Handler();
     }
 
-    out_data = data / 65,535 * 5;
+    out_data = data / 65535 * 5;
     return out_data;
 }
 

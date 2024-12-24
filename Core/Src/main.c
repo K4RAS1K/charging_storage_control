@@ -33,22 +33,27 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 /* Controller parameters */
-#define PID_KP  2.0f
+#define PID_KP  0.5f
 #define PID_KI  0.5f
 #define PID_KD  0.25f
 
 #define PID_TAU 0.02f
 
-#define PID_LIM_MIN -10.0f
-#define PID_LIM_MAX  10.0f
+#define PID_LIM_MIN 0.0f
+#define PID_LIM_MAX 0.4f
 
-#define PID_LIM_MIN_INT -5.0f
-#define PID_LIM_MAX_INT  5.0f
+#define PID_LIM_MIN_INT -0.2f
+#define PID_LIM_MAX_INT  0.2f
 
 #define SAMPLE_TIME_S 0.01f
 
 /* Maximum run-time of simulation */
 #define SIMULATION_TIME_MAX 4.0f
+
+
+#define POWER_SUPLY_3V3 4.5f
+#define POWER_SUPLY_5V 5.2f
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -88,25 +93,26 @@ float AD7683_Read(void) {
         Error_Handler();
     }
 
-    out_data = data / 65535 * 5;
+    out_data = (float)data / 65535 * 5;
     return out_data;
 }
 
-uint16_t ADC_Read(void) {
-    uint16_t data = 0;
+
+float ADC_Read(void) {
+	uint16_t data = 0;
     float out_data = 0;
 
     HAL_ADC_Start(&hadc1);
     HAL_ADC_PollForConversion(&hadc1, 100);
     data = HAL_ADC_GetValue(&hadc1);
     HAL_ADC_Stop(&hadc1);
-    out_data = data / 4095 * 3.3;
+    out_data = (float)data / 4095.0 * 3.3;
     return out_data;
 }
 
 void DAC_Write(float data) {
 
-	uint16_t data_to_DAC = data * 4095 / 3.3;
+	uint16_t data_to_DAC = (uint16_t)round(data * 4095 / POWER_SUPLY_3V3);
 
     HAL_DAC_Start(&hdac1, DAC_CHANNEL_1);
     HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, data_to_DAC);
@@ -170,8 +176,10 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-      if((previousState == GPIO_PIN_SET) && (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_10) == GPIO_PIN_RESET))//переписать что бы реагировало только по спаду
+
+	  if((previousState == GPIO_PIN_SET) && (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_10) == GPIO_PIN_RESET))
       {
+
     	  setpoint = ADC_Read();
     	  measurement = AD7683_Read();
     	  PIDController_Update(&pid, setpoint, measurement);
@@ -180,11 +188,13 @@ int main(void)
     		  v_out = 0.4;
     	  }
     	  DAC_Write(v_out);
+
     	  previousState = GPIO_PIN_RESET;
       }
       if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_10) == GPIO_PIN_SET) {
     	  previousState = GPIO_PIN_SET;
       }
+
   }
   /* USER CODE END 3 */
 }

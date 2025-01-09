@@ -89,11 +89,11 @@ float AD7683_Read(void) {
     uint16_t data = 0;
     float out_data = 0;
 
-    if (HAL_SPI_Receive(&hspi1, (uint8_t*)&data, 1, HAL_MAX_DELAY) != HAL_OK) {
+    if (HAL_SPI_Receive(&hspi1, (uint8_t*)&data, 2, HAL_MAX_DELAY) != HAL_OK) {
         Error_Handler();
     }
 
-    out_data = (float)data / 65535 * 5;
+    out_data = ((float)(data)) / (8.4 * 24.4444);
     return out_data;
 }
 
@@ -176,7 +176,6 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-
 	  if((previousState == GPIO_PIN_SET) && (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_10) == GPIO_PIN_RESET))
       {
 
@@ -188,6 +187,7 @@ int main(void)
     		  v_out = 0.4;
     	  }
     	  DAC_Write(v_out);
+//    	  HAL_Delay(10);
 
     	  previousState = GPIO_PIN_RESET;
       }
@@ -409,7 +409,7 @@ static void MX_SPI1_Init(void)
   hspi1.Init.CLKPolarity = SPI_POLARITY_HIGH;
   hspi1.Init.CLKPhase = SPI_PHASE_2EDGE;
   hspi1.Init.NSS = SPI_NSS_HARD_OUTPUT;
-  hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_64;
+  hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_256;
   hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
   hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
@@ -417,8 +417,8 @@ static void MX_SPI1_Init(void)
   hspi1.Init.NSSPMode = SPI_NSS_PULSE_DISABLE;
   hspi1.Init.NSSPolarity = SPI_NSS_POLARITY_LOW;
   hspi1.Init.FifoThreshold = SPI_FIFO_THRESHOLD_01DATA;
-  hspi1.Init.MasterSSIdleness = SPI_MASTER_SS_IDLENESS_00CYCLE;
-  hspi1.Init.MasterInterDataIdleness = SPI_MASTER_INTERDATA_IDLENESS_00CYCLE;
+  hspi1.Init.MasterSSIdleness = SPI_MASTER_SS_IDLENESS_06CYCLE;
+  hspi1.Init.MasterInterDataIdleness = SPI_MASTER_INTERDATA_IDLENESS_06CYCLE;
   hspi1.Init.MasterReceiverAutoSusp = SPI_MASTER_RX_AUTOSUSP_DISABLE;
   hspi1.Init.MasterKeepIOState = SPI_MASTER_KEEP_IO_STATE_DISABLE;
   hspi1.Init.IOSwap = SPI_IO_SWAP_DISABLE;

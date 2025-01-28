@@ -85,6 +85,8 @@ static void MX_ICACHE_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+ticks = 0;
+
 float AD7683_Read(void) {
     uint16_t data = 0;
     float out_data = 0;
@@ -147,7 +149,7 @@ int main(void)
 
   /* Configure the system clock */
   SystemClock_Config();
-
+  HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq() / 1000);
   /* USER CODE BEGIN SysInit */
 
   /* USER CODE END SysInit */
@@ -180,6 +182,8 @@ int main(void)
     /* USER CODE BEGIN 3 */
 	  if((previousState == GPIO_PIN_SET) && (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_10) == GPIO_PIN_RESET))
       {
+		  pid.T = ticks / 1000;
+		  ticks = 0;
 		  setpoint = ADC_Read();
     	  measurement = AD7683_Read();
     	  PIDController_Update(&pid, setpoint, measurement);

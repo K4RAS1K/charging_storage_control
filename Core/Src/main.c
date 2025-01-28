@@ -33,6 +33,33 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 /* Controller parame5ters */
+//#define LOW_HZ
+
+#ifdef LOW_HZ
+
+#define PID_KP  0.01f
+#define PID_KI  0.65f
+#define PID_KD  0.0f
+
+#define PID_TAU 0.02f
+
+#define PID_LIM_MIN 0.0f
+#define PID_LIM_MAX 0.5f
+
+#define PID_LIM_MIN_INT -8.3f
+#define PID_LIM_MAX_INT  8.3f
+
+#define SAMPLE_TIME_S 1.0f
+
+/* Maximum run-time of simulation */
+#define SIMULATION_TIME_MAX 4.0f
+
+#endif
+
+
+
+#ifndef LOW_HZ
+
 #define PID_KP  0.3f
 #define PID_KI  0.75f
 #define PID_KD  0.0f
@@ -49,6 +76,8 @@
 
 /* Maximum run-time of simulation */
 #define SIMULATION_TIME_MAX 4.0f
+
+#endif
 
 
 #define POWER_SUPLY_3V3 4.5f
@@ -150,7 +179,7 @@ int main(void)
 
   /* Configure the system clock */
   SystemClock_Config();
-  HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq() / 1000);
+
   /* USER CODE BEGIN SysInit */
 
   /* USER CODE END SysInit */
@@ -168,6 +197,8 @@ int main(void)
 
   static GPIO_PinState previousState = GPIO_PIN_SET;
 
+  HAL_GPIO_WritePin (GPIOA,GPIO_PIN_6, GPIO_PIN_SET);
+
   HAL_DAC_Start(&hdac1, DAC_CHANNEL_1);
   /* USER CODE END 2 */
 
@@ -180,19 +211,18 @@ int main(void)
     /* USER CODE BEGIN 3 */
 	  if((previousState == GPIO_PIN_SET) && (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_10) == GPIO_PIN_RESET))
       {
+		  //HAL_GPIO_WritePin (GPIOA,GPIO_PIN_6, GPIO_PIN_RESET);
 		  //pid.T = (float)(ticks / 1);
 		  setpoint = ADC_Read();
     	  measurement = AD7683_Read();
     	  PIDController_Update(&pid, setpoint, measurement);
     	  v_out = pid.out;
-    	  if(v_out > 0.5) {
-    		  v_out = 0.5;
-    	  }
     	  DAC_Write(v_out);
 
     	  previousState = GPIO_PIN_RESET;
     	  HAL_ADC_Stop(&hadc1);
 		  ticks = 0;
+		  //HAL_GPIO_WritePin (GPIOA,GPIO_PIN_6, GPIO_PIN_SET);
       }
 	  else if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_10) == GPIO_PIN_SET) {
     	  previousState = GPIO_PIN_SET;
@@ -457,7 +487,17 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin : PA6 */
+  GPIO_InitStruct.Pin = GPIO_PIN_6;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pin : PB0 */
   GPIO_InitStruct.Pin = GPIO_PIN_0;

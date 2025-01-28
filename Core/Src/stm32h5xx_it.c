@@ -180,8 +180,9 @@ void PendSV_Handler(void)
 /**
   * @brief This function handles System tick timer.
   */
-extern volatile uint32_t ticks;
 
+
+extern volatile uint32_t ticks;
 void SysTick_Handler(void)
 {
   /* USER CODE BEGIN SysTick_IRQn 0 */

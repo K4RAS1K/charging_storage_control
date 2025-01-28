@@ -34,7 +34,7 @@
 /* USER CODE BEGIN PD */
 /* Controller parame5ters */
 #define PID_KP  0.3f
-#define PID_KI  0.025f
+#define PID_KI  0.75f
 #define PID_KD  0.0f
 
 #define PID_TAU 0.02f

@@ -39,9 +39,9 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  17 .debug_line   0000e3e6  00000000  00000000  00038b0d  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    000d27dd  00000000  00000000  00046ef3  2**0
+ 18 .debug_str    000d27dc  00000000  00000000  00046ef3  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000043  00000000  00000000  001196d0  2**0
+ 19 .comment      00000043  00000000  00000000  001196cf  2**0
                   CONTENTS, READONLY
  20 .debug_frame  000031f4  00000000  00000000  00119714  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
@@ -968,158 +968,158 @@ int main(void)
  8000c9a:	2100      	movs	r1, #0
  8000c9c:	4618      	mov	r0, r3
  8000c9e:	f004 ff5c 	bl	8005b5a <memset>
- 8000ca2:	4b3e      	ldr	r3, [pc, #248]	@ (8000d9c <main+0x10c>)
+ 8000ca2:	4b3f      	ldr	r3, [pc, #252]	@ (8000da0 <main+0x110>)
  8000ca4:	607b      	str	r3, [r7, #4]
- 8000ca6:	4b3e      	ldr	r3, [pc, #248]	@ (8000da0 <main+0x110>)
- 8000ca8:	60bb      	str	r3, [r7, #8]
- 8000caa:	4b3e      	ldr	r3, [pc, #248]	@ (8000da4 <main+0x114>)
- 8000cac:	613b      	str	r3, [r7, #16]
- 8000cae:	f04f 537c 	mov.w	r3, #1056964608	@ 0x3f000000
- 8000cb2:	61bb      	str	r3, [r7, #24]
- 8000cb4:	4b3c      	ldr	r3, [pc, #240]	@ (8000da8 <main+0x118>)
- 8000cb6:	61fb      	str	r3, [r7, #28]
- 8000cb8:	4b3c      	ldr	r3, [pc, #240]	@ (8000dac <main+0x11c>)
- 8000cba:	623b      	str	r3, [r7, #32]
- 8000cbc:	f04f 537e 	mov.w	r3, #1065353216	@ 0x3f800000
- 8000cc0:	627b      	str	r3, [r7, #36]	@ 0x24
+ 8000ca6:	f04f 537d 	mov.w	r3, #1061158912	@ 0x3f400000
+ 8000caa:	60bb      	str	r3, [r7, #8]
+ 8000cac:	4b3d      	ldr	r3, [pc, #244]	@ (8000da4 <main+0x114>)
+ 8000cae:	613b      	str	r3, [r7, #16]
+ 8000cb0:	f04f 537c 	mov.w	r3, #1056964608	@ 0x3f000000
+ 8000cb4:	61bb      	str	r3, [r7, #24]
+ 8000cb6:	4b3c      	ldr	r3, [pc, #240]	@ (8000da8 <main+0x118>)
+ 8000cb8:	61fb      	str	r3, [r7, #28]
+ 8000cba:	4b3c      	ldr	r3, [pc, #240]	@ (8000dac <main+0x11c>)
+ 8000cbc:	623b      	str	r3, [r7, #32]
+ 8000cbe:	f04f 537e 	mov.w	r3, #1065353216	@ 0x3f800000
+ 8000cc2:	627b      	str	r3, [r7, #36]	@ 0x24
                           PID_TAU,
                           PID_LIM_MIN, PID_LIM_MAX,
 			  PID_LIM_MIN_INT, PID_LIM_MAX_INT,
                           SAMPLE_TIME_S };
 
     PIDController_Init(&pid);
- 8000cc2:	1d3b      	adds	r3, r7, #4
- 8000cc4:	4618      	mov	r0, r3
- 8000cc6:	f000 fc5a 	bl	800157e <PIDController_Init>
+ 8000cc4:	1d3b      	adds	r3, r7, #4
+ 8000cc6:	4618      	mov	r0, r3
+ 8000cc8:	f000 fc59 	bl	800157e <PIDController_Init>
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
- 8000cca:	f000 fd3f 	bl	800174c <HAL_Init>
+ 8000ccc:	f000 fd3e 	bl	800174c <HAL_Init>
   /* USER CODE BEGIN Init */
 
   /* USER CODE END Init */
 
   /* Configure the system clock */
   SystemClock_Config();
- 8000cce:	f000 f87b 	bl	8000dc8 <SystemClock_Config>
+ 8000cd0:	f000 f87a 	bl	8000dc8 <SystemClock_Config>
   HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq() / 1000);
- 8000cd2:	f003 fd1f 	bl	8004714 <HAL_RCC_GetHCLKFreq>
- 8000cd6:	4603      	mov	r3, r0
- 8000cd8:	4a35      	ldr	r2, [pc, #212]	@ (8000db0 <main+0x120>)
- 8000cda:	fba2 2303 	umull	r2, r3, r2, r3
- 8000cde:	099b      	lsrs	r3, r3, #6
- 8000ce0:	4618      	mov	r0, r3
- 8000ce2:	f002 f947 	bl	8002f74 <HAL_SYSTICK_Config>
+ 8000cd4:	f003 fd1e 	bl	8004714 <HAL_RCC_GetHCLKFreq>
+ 8000cd8:	4603      	mov	r3, r0
+ 8000cda:	4a35      	ldr	r2, [pc, #212]	@ (8000db0 <main+0x120>)
+ 8000cdc:	fba2 2303 	umull	r2, r3, r2, r3
+ 8000ce0:	099b      	lsrs	r3, r3, #6
+ 8000ce2:	4618      	mov	r0, r3
+ 8000ce4:	f002 f946 	bl	8002f74 <HAL_SYSTICK_Config>
   /* USER CODE BEGIN SysInit */
 
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
- 8000ce6:	f000 f9df 	bl	80010a8 <MX_GPIO_Init>
+ 8000ce8:	f000 f9de 	bl	80010a8 <MX_GPIO_Init>
   MX_ADC1_Init();
- 8000cea:	f000 f8dd 	bl	8000ea8 <MX_ADC1_Init>
+ 8000cec:	f000 f8dc 	bl	8000ea8 <MX_ADC1_Init>
   MX_DAC1_Init();
- 8000cee:	f000 f93f 	bl	8000f70 <MX_DAC1_Init>
+ 8000cf0:	f000 f93e 	bl	8000f70 <MX_DAC1_Init>
   MX_SPI1_Init();
- 8000cf2:	f000 f981 	bl	8000ff8 <MX_SPI1_Init>
+ 8000cf4:	f000 f980 	bl	8000ff8 <MX_SPI1_Init>
   MX_ICACHE_Init();
- 8000cf6:	f000 f973 	bl	8000fe0 <MX_ICACHE_Init>
+ 8000cf8:	f000 f972 	bl	8000fe0 <MX_ICACHE_Init>
   /* USER CODE BEGIN 2 */
   float setpoint = 0;
- 8000cfa:	f04f 0300 	mov.w	r3, #0
- 8000cfe:	643b      	str	r3, [r7, #64]	@ 0x40
+ 8000cfc:	f04f 0300 	mov.w	r3, #0
+ 8000d00:	643b      	str	r3, [r7, #64]	@ 0x40
   float measurement = 0;
- 8000d00:	f04f 0300 	mov.w	r3, #0
- 8000d04:	63fb      	str	r3, [r7, #60]	@ 0x3c
+ 8000d02:	f04f 0300 	mov.w	r3, #0
+ 8000d06:	63fb      	str	r3, [r7, #60]	@ 0x3c
   float v_out = 0;
- 8000d06:	f04f 0300 	mov.w	r3, #0
- 8000d0a:	647b      	str	r3, [r7, #68]	@ 0x44
+ 8000d08:	f04f 0300 	mov.w	r3, #0
+ 8000d0c:	647b      	str	r3, [r7, #68]	@ 0x44
 
   static GPIO_PinState previousState = GPIO_PIN_SET;
 
   HAL_DAC_Start(&hdac1, DAC_CHANNEL_1);
- 8000d0c:	2100      	movs	r1, #0
- 8000d0e:	4829      	ldr	r0, [pc, #164]	@ (8000db4 <main+0x124>)
- 8000d10:	f002 fa02 	bl	8003118 <HAL_DAC_Start>
+ 8000d0e:	2100      	movs	r1, #0
+ 8000d10:	4828      	ldr	r0, [pc, #160]	@ (8000db4 <main+0x124>)
+ 8000d12:	f002 fa01 	bl	8003118 <HAL_DAC_Start>
   while (1)
   {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
 	  if((previousState == GPIO_PIN_SET) && (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_10) == GPIO_PIN_RESET))
- 8000d14:	4b28      	ldr	r3, [pc, #160]	@ (8000db8 <main+0x128>)
- 8000d16:	781b      	ldrb	r3, [r3, #0]
- 8000d18:	2b01      	cmp	r3, #1
- 8000d1a:	d133      	bne.n	8000d84 <main+0xf4>
- 8000d1c:	f44f 6180 	mov.w	r1, #1024	@ 0x400
- 8000d20:	4826      	ldr	r0, [pc, #152]	@ (8000dbc <main+0x12c>)
- 8000d22:	f002 fd9b 	bl	800385c <HAL_GPIO_ReadPin>
- 8000d26:	4603      	mov	r3, r0
- 8000d28:	2b00      	cmp	r3, #0
- 8000d2a:	d12b      	bne.n	8000d84 <main+0xf4>
+ 8000d16:	4b28      	ldr	r3, [pc, #160]	@ (8000db8 <main+0x128>)
+ 8000d18:	781b      	ldrb	r3, [r3, #0]
+ 8000d1a:	2b01      	cmp	r3, #1
+ 8000d1c:	d133      	bne.n	8000d86 <main+0xf6>
+ 8000d1e:	f44f 6180 	mov.w	r1, #1024	@ 0x400
+ 8000d22:	4826      	ldr	r0, [pc, #152]	@ (8000dbc <main+0x12c>)
+ 8000d24:	f002 fd9a 	bl	800385c <HAL_GPIO_ReadPin>
+ 8000d28:	4603      	mov	r3, r0
+ 8000d2a:	2b00      	cmp	r3, #0
+ 8000d2c:	d12b      	bne.n	8000d86 <main+0xf6>
       {
 		  //pid.T = (float)(ticks / 1);
 		  setpoint = ADC_Read();
- 8000d2c:	f7ff ff30 	bl	8000b90 <ADC_Read>
- 8000d30:	ed87 0a10 	vstr	s0, [r7, #64]	@ 0x40
+ 8000d2e:	f7ff ff2f 	bl	8000b90 <ADC_Read>
+ 8000d32:	ed87 0a10 	vstr	s0, [r7, #64]	@ 0x40
     	  measurement = AD7683_Read();
- 8000d34:	f7ff fef0 	bl	8000b18 <AD7683_Read>
- 8000d38:	ed87 0a0f 	vstr	s0, [r7, #60]	@ 0x3c
+ 8000d36:	f7ff feef 	bl	8000b18 <AD7683_Read>
+ 8000d3a:	ed87 0a0f 	vstr	s0, [r7, #60]	@ 0x3c
     	  PIDController_Update(&pid, setpoint, measurement);
- 8000d3c:	1d3b      	adds	r3, r7, #4
- 8000d3e:	edd7 0a0f 	vldr	s1, [r7, #60]	@ 0x3c
- 8000d42:	ed97 0a10 	vldr	s0, [r7, #64]	@ 0x40
- 8000d46:	4618      	mov	r0, r3
- 8000d48:	f000 fc38 	bl	80015bc <PIDController_Update>
+ 8000d3e:	1d3b      	adds	r3, r7, #4
+ 8000d40:	edd7 0a0f 	vldr	s1, [r7, #60]	@ 0x3c
+ 8000d44:	ed97 0a10 	vldr	s0, [r7, #64]	@ 0x40
+ 8000d48:	4618      	mov	r0, r3
+ 8000d4a:	f000 fc37 	bl	80015bc <PIDController_Update>
     	  v_out = pid.out;
- 8000d4c:	6bbb      	ldr	r3, [r7, #56]	@ 0x38
- 8000d4e:	647b      	str	r3, [r7, #68]	@ 0x44
+ 8000d4e:	6bbb      	ldr	r3, [r7, #56]	@ 0x38
+ 8000d50:	647b      	str	r3, [r7, #68]	@ 0x44
     	  if(v_out > 0.5) {
- 8000d50:	edd7 7a11 	vldr	s15, [r7, #68]	@ 0x44
- 8000d54:	eeb6 7a00 	vmov.f32	s14, #96	@ 0x3f000000  0.5
- 8000d58:	eef4 7ac7 	vcmpe.f32	s15, s14
- 8000d5c:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
- 8000d60:	dd02      	ble.n	8000d68 <main+0xd8>
+ 8000d52:	edd7 7a11 	vldr	s15, [r7, #68]	@ 0x44
+ 8000d56:	eeb6 7a00 	vmov.f32	s14, #96	@ 0x3f000000  0.5
+ 8000d5a:	eef4 7ac7 	vcmpe.f32	s15, s14
+ 8000d5e:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
+ 8000d62:	dd02      	ble.n	8000d6a <main+0xda>
     		  v_out = 0.5;
- 8000d62:	f04f 537c 	mov.w	r3, #1056964608	@ 0x3f000000
- 8000d66:	647b      	str	r3, [r7, #68]	@ 0x44
+ 8000d64:	f04f 537c 	mov.w	r3, #1056964608	@ 0x3f000000
+ 8000d68:	647b      	str	r3, [r7, #68]	@ 0x44
     	  }
     	  DAC_Write(v_out);
- 8000d68:	ed97 0a11 	vldr	s0, [r7, #68]	@ 0x44
- 8000d6c:	f7ff ff58 	bl	8000c20 <DAC_Write>
+ 8000d6a:	ed97 0a11 	vldr	s0, [r7, #68]	@ 0x44
+ 8000d6e:	f7ff ff57 	bl	8000c20 <DAC_Write>
 
     	  previousState = GPIO_PIN_RESET;
- 8000d70:	4b11      	ldr	r3, [pc, #68]	@ (8000db8 <main+0x128>)
- 8000d72:	2200      	movs	r2, #0
- 8000d74:	701a      	strb	r2, [r3, #0]
+ 8000d72:	4b11      	ldr	r3, [pc, #68]	@ (8000db8 <main+0x128>)
+ 8000d74:	2200      	movs	r2, #0
+ 8000d76:	701a      	strb	r2, [r3, #0]
     	  HAL_ADC_Stop(&hadc1);
- 8000d76:	4812      	ldr	r0, [pc, #72]	@ (8000dc0 <main+0x130>)
- 8000d78:	f001 f9db 	bl	8002132 <HAL_ADC_Stop>
+ 8000d78:	4811      	ldr	r0, [pc, #68]	@ (8000dc0 <main+0x130>)
+ 8000d7a:	f001 f9da 	bl	8002132 <HAL_ADC_Stop>
 		  ticks = 0;
- 8000d7c:	4b11      	ldr	r3, [pc, #68]	@ (8000dc4 <main+0x134>)
- 8000d7e:	2200      	movs	r2, #0
- 8000d80:	601a      	str	r2, [r3, #0]
- 8000d82:	e00a      	b.n	8000d9a <main+0x10a>
+ 8000d7e:	4b11      	ldr	r3, [pc, #68]	@ (8000dc4 <main+0x134>)
+ 8000d80:	2200      	movs	r2, #0
+ 8000d82:	601a      	str	r2, [r3, #0]
+ 8000d84:	e00a      	b.n	8000d9c <main+0x10c>
       }
 	  else if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_10) == GPIO_PIN_SET) {
- 8000d84:	f44f 6180 	mov.w	r1, #1024	@ 0x400
- 8000d88:	480c      	ldr	r0, [pc, #48]	@ (8000dbc <main+0x12c>)
- 8000d8a:	f002 fd67 	bl	800385c <HAL_GPIO_ReadPin>
- 8000d8e:	4603      	mov	r3, r0
- 8000d90:	2b01      	cmp	r3, #1
- 8000d92:	d1bf      	bne.n	8000d14 <main+0x84>
+ 8000d86:	f44f 6180 	mov.w	r1, #1024	@ 0x400
+ 8000d8a:	480c      	ldr	r0, [pc, #48]	@ (8000dbc <main+0x12c>)
+ 8000d8c:	f002 fd66 	bl	800385c <HAL_GPIO_ReadPin>
+ 8000d90:	4603      	mov	r3, r0
+ 8000d92:	2b01      	cmp	r3, #1
+ 8000d94:	d1bf      	bne.n	8000d16 <main+0x86>
     	  previousState = GPIO_PIN_SET;
- 8000d94:	4b08      	ldr	r3, [pc, #32]	@ (8000db8 <main+0x128>)
- 8000d96:	2201      	movs	r2, #1
- 8000d98:	701a      	strb	r2, [r3, #0]
+ 8000d96:	4b08      	ldr	r3, [pc, #32]	@ (8000db8 <main+0x128>)
+ 8000d98:	2201      	movs	r2, #1
+ 8000d9a:	701a      	strb	r2, [r3, #0]
 	  if((previousState == GPIO_PIN_SET) && (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_10) == GPIO_PIN_RESET))
- 8000d9a:	e7bb      	b.n	8000d14 <main+0x84>
- 8000d9c:	3e99999a 	.word	0x3e99999a
- 8000da0:	3ccccccd 	.word	0x3ccccccd
+ 8000d9c:	e7bb      	b.n	8000d16 <main+0x86>
+ 8000d9e:	bf00      	nop
+ 8000da0:	3e99999a 	.word	0x3e99999a
  8000da4:	3ca3d70a 	.word	0x3ca3d70a
  8000da8:	c0533333 	.word	0xc0533333
  8000dac:	40533333 	.word	0x40533333
